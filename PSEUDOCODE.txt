@@ -1,5 +1,24 @@
-1. display menu
-2. read 1 key input (case doesn't matter, don't require enter)
-2.2 if key input not on list, informative error message, back to 2.0
-3. on correct keypress do the indicated thing
-3.1
+/*
+ * FILE             : PSEUDOCODE.txt
+ * PROJECT          : Assignment 2
+ * PROGRAMMER       : Joshua Ducharme-Baribeau
+ * FIRST VERSION    : September 20 2026
+ * DESCRIPTION      : Pseudo code/plan and notes for the asssignment.
+ *					: FOR STUDENT USE ONLY.
+ */
+
+To do list: 
+
+Pseudocode:
+1.0.	clear screen (could possibly be omitted on initial start)
+	
+2.0.	read 1 key input (case doesn't matter, don't require enter)
+			2.1. if key input not on list, informative error message
+			2.2. require any keypress to return to 1.0.
+
+3.0.	on correct keypress do the indicated thing
+			3.1. A add new line of text data
+			3.2. D Display all data
+			3.3. R Remove line of text data
+			3.4. S Saave the data to a file
+			3.5. X Exit the program
