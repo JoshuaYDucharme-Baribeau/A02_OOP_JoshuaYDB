@@ -16,8 +16,26 @@ namespace A02_OOP_JoshuaYDB
     {
         static void Main(string[] args)
         {
+            string temp_input; //temporary variable while developing
+
+            Boolean ready = true;
             
-            //loop for menu display
+            //loop for main program
+            while (ready)
+            {
+                Display_menu(); //initial menu display
+                //await a keypress (switch case?)
+
+
+                //case "x" or "X"
+                Console.WriteLine("Enter X to exit");
+                temp_input = Console.ReadLine(); //here to stop infinite loop while developing
+                if(temp_input == "x" || temp_input == "X") //turn this if statement into a case when keystroke input is established
+                {
+                    ready = false;
+                }
+            }
+            Console.WriteLine("success");
             //
             //
 
@@ -51,7 +69,7 @@ namespace A02_OOP_JoshuaYDB
          */
         private static void Display_menu()
         {
-
+            Console.WriteLine("My menu \n\n");
             //no return needed for void return type
         }
 
