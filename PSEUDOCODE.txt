@@ -1,0 +1,5 @@
+1. display menu
+2. read 1 key input (case doesn't matter, don't require enter)
+2.2 if key input not on list, informative error message, back to 2.0
+3. on correct keypress do the indicated thing
+3.1
