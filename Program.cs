@@ -5,6 +5,8 @@
  * FIRST VERSION    : September 24 2026
  * DESCRIPTION      : C# Source file for "Program.cs" containing "Program" class
  */
+using System.Reflection.Metadata;
+
 namespace A02_OOP_JoshuaYDB
 {
     /*
@@ -19,25 +21,59 @@ namespace A02_OOP_JoshuaYDB
             string temp_input; //temporary variable while developing
 
             Boolean ready = true;
+            ConsoleKeyInfo user_input; //using the ConsoleKeyInfo object/struct to store the key stroke https://learn.microsoft.com/en-us/dotnet/api/system.console.readkey?view=net-10.0 
+            
             
             //loop for main program
             while (ready)
             {
                 Display_menu(); //initial menu display
-                //await a keypress (switch case?)
-
-
-                //case "x" or "X"
-                Console.WriteLine("Enter X to exit");
-                temp_input = Console.ReadLine(); //here to stop infinite loop while developing
-                if(temp_input == "x" || temp_input == "X") //turn this if statement into a case when keystroke input is established
+                //Console.WriteLine("Enter X to exit");
+                //temp_input = Console.ReadLine(); //here to stop infinite loop while developing
+                
+                user_input = Console.ReadKey();
+                switch (user_input.Key)
                 {
-                    ready = false;
+                    case ConsoleKey.A:
+                        //foo
+                        Clear_screen(); //consider moving the clear screen to the end of the methods that are called
+                        break;
+
+                    case ConsoleKey.D:
+                        //foo
+                        Clear_screen();
+                        break;
+
+                    case ConsoleKey.R:
+                        //foo
+                        Clear_screen();
+                        break;
+
+                    case ConsoleKey.S:
+                        //foo
+                        Clear_screen();
+                        break;
+
+                    case ConsoleKey.X:
+                        ready = false;
+                        Clear_screen();
+                        break;
+                    
+                    default:
+                        //no menu option selected, display an error
+                        Display_error_message();
+                        break;
+
                 }
+                Console.WriteLine("LAST INPUT:" + user_input.KeyChar + " \n"); //output for debugging purposes
+                //if(temp_input == "x" || temp_input == "X") //turn this if statement into a case when keystroke input is established
+                //{
+                //}
             }
-            Console.WriteLine("success");
+            Console.WriteLine("successfully exited"); //debug line
             //
             //
+
 
         }
 
@@ -53,7 +89,7 @@ namespace A02_OOP_JoshuaYDB
          */
         private static void Clear_screen()
         {
-
+            Console.Clear();
             //no return needed for void return type
         }
 
@@ -69,7 +105,17 @@ namespace A02_OOP_JoshuaYDB
          */
         private static void Display_menu()
         {
-            Console.WriteLine("My menu \n\n");
+            //Main menu's WriteLine. Concatenated for code readability
+            Console.WriteLine
+                (
+                "<A>dd a new line of text data\n" +
+                "<D>isplay all the data\n" +
+                "<R>emove a line of text data\n" +
+                "<S>ave the data to a file\n" +
+                "E<X>it the program\n" +
+                "Please choose the operation you would like to perform:\n\n"
+                );
+            
             //no return needed for void return type
         }
 
@@ -79,12 +125,13 @@ namespace A02_OOP_JoshuaYDB
          * 
          * DESCRIPTION  : displays an informative error message
          * 
-         * PARAMETERS   : 
+         * PARAMETERS   : NONE
          * 
-         * RETURNS      : 
+         * RETURNS      : NOTHING
          */
         private static void Display_error_message()
         {
+            Console.WriteLine("\nAN ERROR HAS OCCURRED\n\n");
 
         }
     }
