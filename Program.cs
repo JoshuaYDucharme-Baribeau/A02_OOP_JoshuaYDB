@@ -5,7 +5,6 @@
  * FIRST VERSION    : September 24 2026
  * DESCRIPTION      : C# Source file for "Program.cs" containing "Program" class
  */
-using System.Reflection.Metadata;
 
 namespace A02_OOP_JoshuaYDB
 {
@@ -18,7 +17,7 @@ namespace A02_OOP_JoshuaYDB
     {
         static void Main(string[] args)
         {
-            string temp_input; //temporary variable while developing
+            //string temp_input; //temporary variable while developing
 
             Boolean ready = true;
             ConsoleKeyInfo user_input; //using the ConsoleKeyInfo object/struct to store the key stroke https://learn.microsoft.com/en-us/dotnet/api/system.console.readkey?view=net-10.0 
@@ -35,8 +34,7 @@ namespace A02_OOP_JoshuaYDB
                 switch (user_input.Key)
                 {
                     case ConsoleKey.A:
-                        //foo
-                        Clear_screen(); //consider moving the clear screen to the end of the methods that are called
+                        Add_text();
                         break;
 
                     case ConsoleKey.D:
@@ -132,7 +130,35 @@ namespace A02_OOP_JoshuaYDB
         private static void Display_error_message()
         {
             Console.WriteLine("\nAN ERROR HAS OCCURRED\n\n");
-
+            Console.WriteLine("\nPress any key to return to the menu...");
+            Console.ReadKey(); //readkey to block the program
+            Clear_screen();
+            //no return needed for void return type
         }
+
+
+        /*
+         * METHOD       : Display_error_message()
+         * 
+         * DESCRIPTION  : Adds text to the file, provides feedback and calls Clear_screen()
+         * 
+         * PARAMETERS   : NONE
+         * 
+         * RETURNS      : NOTHING
+         */
+        private static void Add_text()
+        {
+            Console.WriteLine("Please enter the text you would like to add to the file\n");
+            Console.ReadLine();
+            
+            //add text to file
+            
+            Console.WriteLine("\nText added successfully, press any key to continue...");
+            Console.ReadKey(); //readkey to block the program
+            Clear_screen();
+
+            //no return needed for void return type
+        }
+
     }
 }
