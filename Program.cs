@@ -38,8 +38,7 @@ namespace A02_OOP_JoshuaYDB
                         break;
 
                     case ConsoleKey.D:
-                        //foo
-                        Clear_screen();
+                        Display_data();
                         break;
 
                     case ConsoleKey.R:
@@ -95,7 +94,7 @@ namespace A02_OOP_JoshuaYDB
         /*
          * METHOD       : Display_menu()
          * 
-         * DESCRIPTION  : clears the UI (i.e. clears the cli display)
+         * DESCRIPTION  : displays the main menu
          * 
          * PARAMETERS   : NONE
          * 
@@ -138,9 +137,9 @@ namespace A02_OOP_JoshuaYDB
 
 
         /*
-         * METHOD       : Display_error_message()
+         * METHOD       : Add_text()
          * 
-         * DESCRIPTION  : Adds text to the file, provides feedback and calls Clear_screen()
+         * DESCRIPTION  : Adds text to the file
          * 
          * PARAMETERS   : NONE
          * 
@@ -160,5 +159,32 @@ namespace A02_OOP_JoshuaYDB
             //no return needed for void return type
         }
 
+
+        /*
+         * METHOD       : Display_data()
+         * 
+         * DESCRIPTION  : Displays the data in the file line-by-line
+         * 
+         * PARAMETERS   : NONE
+         * 
+         * RETURNS      : NOTHING
+         */
+        private static void Display_data()
+        {
+            Clear_screen();
+            //pseudocode:
+            //for each string in list
+            //{
+            //    print({ count} + ": " + {string})
+            //}
+            Console.WriteLine();
+            Console.WriteLine("End of data");
+            Console.WriteLine();
+
+            Console.WriteLine("Press any key to return to the menu...");
+            Console.ReadKey(); //readkey to block the program
+            Clear_screen();
+
+        }
     }
 }
