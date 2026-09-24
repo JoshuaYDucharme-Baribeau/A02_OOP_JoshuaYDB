@@ -7,7 +7,8 @@
  *					: FOR STUDENT USE ONLY.
  */
 
-To do list: 
+To do list:
+//making a test commit and push because Visual Studio Git is behaving strangely
 
 Pseudocode:
 1.0.	clear screen (could possibly be omitted on initial start)
