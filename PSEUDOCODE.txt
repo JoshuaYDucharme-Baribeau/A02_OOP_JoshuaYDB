@@ -9,6 +9,8 @@
 
 To do list:
 //making a test commit and push because Visual Studio Git is behaving strangely
+- re-check all comments
+- 
 
 Pseudocode:
 1.0.	clear screen (could possibly be omitted on initial start)

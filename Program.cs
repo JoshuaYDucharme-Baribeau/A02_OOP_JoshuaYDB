@@ -16,7 +16,58 @@ namespace A02_OOP_JoshuaYDB
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            
+            //loop for menu display
+            //
+            //
+
+        }
+
+
+        /*
+         * METHOD       : Clear_screen()
+         * 
+         * DESCRIPTION  : clears the UI (i.e. clears the cli display)
+         * 
+         * PARAMETERS   : NONE
+         * 
+         * RETURNS      : NOTHING
+         */
+        private static void Clear_screen()
+        {
+
+            //no return needed for void return type
+        }
+
+
+        /*
+         * METHOD       : Display_menu()
+         * 
+         * DESCRIPTION  : clears the UI (i.e. clears the cli display)
+         * 
+         * PARAMETERS   : NONE
+         * 
+         * RETURNS      : NOTHING
+         */
+        private static void Display_menu()
+        {
+
+            //no return needed for void return type
+        }
+
+
+        /*
+         * METHOD       : Display_error_message()
+         * 
+         * DESCRIPTION  : displays an informative error message
+         * 
+         * PARAMETERS   : 
+         * 
+         * RETURNS      : 
+         */
+        private static void Display_error_message()
+        {
+
         }
     }
 }
