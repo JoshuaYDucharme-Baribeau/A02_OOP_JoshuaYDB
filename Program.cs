@@ -26,7 +26,7 @@ namespace A02_OOP_JoshuaYDB
             //loop for main program
             while (ready)
             {
-                Display_menu(); //initial menu display
+                Display_menu(); //menu display
 
                 user_input = Console.ReadKey();
                 switch (user_input.Key)
@@ -47,17 +47,17 @@ namespace A02_OOP_JoshuaYDB
                         }
                         else //if there are no strings in the list to remove
                         {
-                            Console.WriteLine("There are no saved lines to remove. Please add a line before removing one.");
-                            Console.WriteLine("\nPress any key to return to the menu...");
-                            Console.ReadKey(); //readkey to block the program
+                            Display_error_message
+                                (
+                                    "There are no saved lines to remove. Please add a line before removing one.",
+                                    "Press any key to return to the menu..."
+                                );
                         }
-                        
-                        Clear_screen();
+
                         break;
 
                     case ConsoleKey.S:
                         //foo
-                        Clear_screen();
                         break;
 
                     case ConsoleKey.X:
@@ -67,11 +67,15 @@ namespace A02_OOP_JoshuaYDB
 
                     default:
                         //no menu option selected, display an error
-                        Display_error_message();
+                        Display_error_message
+                            (
+                                "Invalid selection. Choose an operation based on the characters in brackets <>.",
+                                "Press any key to return to the menu..."
+                            );
                         break;
 
                 }
-                Console.WriteLine("LAST INPUT:" + user_input.KeyChar + " \n"); //output for debugging purposes
+                //Console.WriteLine("LAST INPUT:" + user_input.KeyChar + " \n"); //output for debugging purposes
             }
             
             //Console.WriteLine("successfully exited"); //debug line
@@ -82,7 +86,10 @@ namespace A02_OOP_JoshuaYDB
         /*
          * METHOD       : Clear_screen
          * 
-         * DESCRIPTION  : clears the UI (i.e. clears the cli display)
+         * DESCRIPTION  : clears the UI (i.e. clears the cli display).
+         *                Although a method for this exists in the System namespace, 
+         *                I use it frequently so I wanted my own method that I 
+         *                could modify if I needed.
          * 
          * PARAMETERS   : NONE
          * 
@@ -106,18 +113,26 @@ namespace A02_OOP_JoshuaYDB
          */
         private static void Display_menu()
         {
+            Clear_screen(); //clear the screen before anything
             //Main menu's WriteLine. Concatenated for code readability
             Console.WriteLine
                 (
-                "<A>dd a new line of text data\n" +
-                "<D>isplay all the data\n" +
-                "<R>emove a line of text data\n" +
-                "<S>ave the data to a file\n" +
-                "E<X>it the program\n" +
-                "Please choose the operation you would like to perform:\n\n"
+                    "<A>dd a new line of text data\n" +
+                    "<D>isplay all the data\n" +
+                    "<R>emove a line of text data\n" +
+                    "<S>ave the data to a file\n" +
+                    "E<X>it the program\n" +
+                    "Please choose the operation you would like to perform:\n\n"
                 );
 
             //no return needed for void return type
+        }
+
+
+        private static void Block_program(string message_prompt = "Press any key to continue...") //sets a default param to make the param optional.
+        {
+            Console.WriteLine(message_prompt);
+            Console.ReadKey();
         }
 
 
@@ -130,14 +145,13 @@ namespace A02_OOP_JoshuaYDB
          * 
          * RETURNS      : NOTHING
          */
-        private static void Display_error_message()
+        private static void Display_error_message(string error_message = "An error has occurred.", string message_prompt = "Press any key to try again...") //Two default params
         {
-            Console.WriteLine("\nAN ERROR HAS OCCURRED\n\n");
-            Console.WriteLine("\nPress any key to return to the menu...");
-            Console.ReadKey(); //readkey to block the program
-            Clear_screen();
-            //no return needed for void return type
+            //Clear_screen();
+            Console.WriteLine("\n\n" + error_message);
+            Block_program(message_prompt);
         }
+
 
 
         /*
@@ -153,11 +167,11 @@ namespace A02_OOP_JoshuaYDB
          */
         private static List<string> Add_text(List<string> saved_text)
         {
-            Clear_screen();
             Boolean invalid_string_flag = true; //flag to denote that the user_string is invalid (i.e. null or empty)
 
             while (invalid_string_flag)
             {
+                Clear_screen();
 
                 //just in time declaration to reset the value of user_string in each loop (in case of invalid input)
                 string? user_string; //the '?' of 'string?' allows the string to be null, which allows for the below validation
@@ -165,14 +179,15 @@ namespace A02_OOP_JoshuaYDB
                 Console.WriteLine("Please enter the line of text you would like to add to the list:\n");
                 user_string = Console.ReadLine();
 
-                if (string.IsNullOrWhiteSpace(user_string)) //if user_string is null or only whitespace
+                //if user_string is null or only whitespace
+                if (string.IsNullOrWhiteSpace(user_string)) 
                 {
-                    Console.WriteLine("\nThe line of text you enter must not be blank. Press any key to try again...");
-                    Console.ReadKey(); //readkey to block the program so the user can read the error
-                    Clear_screen();
-                    continue; //skips remaining code of the while loop, preferable to an empty if statement
+                    //display an error and block program (Display_error_message calls a method to block the program)
+                    Display_error_message("The line of text you enter must not be blank."); //uses the default param for the Block_program method
+                    
                 }
-                else //if user_string is not null or only whitespace
+                //else, i.e. if user_string is not null or only whitespace
+                else
                 {
                     //add string to the list
                     saved_text.Add(user_string);
@@ -181,9 +196,8 @@ namespace A02_OOP_JoshuaYDB
 
             }
 
-            Console.WriteLine("\nText added successfully, press any key to continue...");
-            Console.ReadKey(); //readkey to block the program so the user can read
-            Clear_screen();
+            Console.WriteLine("Text added successfully.");
+            Block_program("Press any key to return to the menu...");
 
             return saved_text;
         }
@@ -214,9 +228,7 @@ namespace A02_OOP_JoshuaYDB
             Console.WriteLine("End of data");
             Console.WriteLine();
 
-            Console.WriteLine("Press any key to return to the menu...");
-            Console.ReadKey(); //readkey to block the program
-            Clear_screen();
+            Block_program("Press any key to return to the menu...");
 
         }
 
@@ -235,25 +247,26 @@ namespace A02_OOP_JoshuaYDB
          */
         private static List<string> Remove_line(List<string> saved_text)
         {
-            //to add: make sure there is something to remove before this method can be called
-
             Boolean invalid_input = true; //flag to control the while loop and denote that the input is invalid (i.e. null or empty, index does not exist, invalid input)
             int index_for_deletion; //index of the line the user wants to delete
 
             while (invalid_input)
             {
+                Clear_screen();
                 //just in time declaration to reset the value of user_input in each loop (in case of invalid input or line not found)
                 string? user_input; //input from the user, '?' allows the input to be null (will be handled by validation)
                 
                 Console.WriteLine("Please enter the line number you would like to remove from the list:\n");
                 user_input = Console.ReadLine();
-                
-                if (string.IsNullOrWhiteSpace(user_input)) //if user_string is null or only whitespace
+
+                //if user_string is null or only whitespace
+                if (string.IsNullOrWhiteSpace(user_input)) 
                 {
-                    Console.WriteLine("\nThe line number you enter must not be blank. Press any key to enter a different line number...");
-                    Console.ReadKey(); //readkey to block the program so the user can read the error
-                    Clear_screen();
-                    continue; //skips remaining code of the while loop, preferable to an empty if statement
+                    Display_error_message
+                        (
+                            "The line number you enter must not be blank.",
+                            "Press any key to enter a different line number..."
+                        );
                 }
                 else //if user_string is not null or only whitespace
                 {
@@ -266,26 +279,30 @@ namespace A02_OOP_JoshuaYDB
                         if (index_for_deletion > -1 && index_for_deletion < saved_text.Count) //if the indicated line exists, this check prevents RemoveAt() from throwing an excception
                         {
                             saved_text.RemoveAt(index_for_deletion); //remove the string at the index in question
-                            invalid_input = false; //exit the loop by changing the flag to false
-                            Console.WriteLine($"\nLine {index_for_deletion + 1} removed successfully, press any key to continue...");
-                            Console.ReadKey(); //readkey to block the program so the user can read
-                            Clear_screen();
+                            invalid_input = false; //changing the flag to false in order to exit the loop
+
+                            Console.WriteLine($"\nLine {index_for_deletion + 1} removed successfully.");
+                            Block_program("Press any key to continue...");
+
                         }
                         else //if the indicated line does not exist
                         {
-                            Console.WriteLine("\nThe line number you entered does not exist. Press any key to enter a different line number...");
-                            Console.ReadKey(); //readkey to block the program so the user can read the error
-                            Clear_screen();
-                            continue; //skips remaining code of the while loop, preferable to an empty if statement
+                            Display_error_message
+                                (
+                                    "The line number you entered does not exist.",
+                                    "Press any key to enter a different line number..."
+                                );
                         }
 
                     }
                     else //i.e. if the input was not parsable to an int or was smaller than 1 (covers letters, symbols, zero, negative numbers and non-integers)
                     {
-                        Console.WriteLine("\nInvalid input. Enter only integers greater than 0. Press any key to enter a different line number...");
-                        Console.ReadKey(); //readkey to block the program so the user can read the error
-                        Clear_screen();
-                        continue; //skips remaining code of the while loop, preferable to an empty if statement
+                        Display_error_message
+                            (
+                                "Invalid input. Enter only integers greater than 0.",
+                                "Press any key to enter a different line number..."
+                            );
+
                     }
 
                 }

@@ -11,11 +11,12 @@
 To do list:
 //making a test commit and push because Visual Studio Git is behaving strangely
 - re-check all comments
-- fix the error message function to display better
-- consider creating a method for blocking proogram and passing a message through it to reduce lines of code
+DONE- fix the error message function to display better
+DONE- consider creating a method for blocking program and passing a message through it to reduce lines of code
+
 - FEATURE: add a way to opt out of removing or adding a line (cancel the operation)
-- add the actual number of lines in the list to the error message
 - FEATURE: add a way to display the list when presenting the user with an error
+			- add the actual number of lines in the list to the error message
 
 Pseudocode:
 1.0.	clear screen (could possibly be omitted on initial start)
