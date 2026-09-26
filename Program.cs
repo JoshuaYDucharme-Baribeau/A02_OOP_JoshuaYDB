@@ -40,7 +40,18 @@ namespace A02_OOP_JoshuaYDB
                         break;
 
                     case ConsoleKey.R:
-                        saved_text = Remove_line(saved_text);
+                        
+                        if(saved_text.Count > 0) //if there are any strings in the list to remove
+                        {
+                            saved_text = Remove_line(saved_text);
+                        }
+                        else //if there are no strings in the list to remove
+                        {
+                            Console.WriteLine("There are no saved lines to remove. Please add a line before removing one.");
+                            Console.WriteLine("\nPress any key to return to the menu...");
+                            Console.ReadKey(); //readkey to block the program
+                        }
+                        
                         Clear_screen();
                         break;
 
@@ -62,14 +73,14 @@ namespace A02_OOP_JoshuaYDB
                 }
                 Console.WriteLine("LAST INPUT:" + user_input.KeyChar + " \n"); //output for debugging purposes
             }
-
-            Console.WriteLine("successfully exited"); //debug line
+            
+            //Console.WriteLine("successfully exited"); //debug line
 
         }
 
 
         /*
-         * METHOD       : Clear_screen()
+         * METHOD       : Clear_screen
          * 
          * DESCRIPTION  : clears the UI (i.e. clears the cli display)
          * 
@@ -85,7 +96,7 @@ namespace A02_OOP_JoshuaYDB
 
 
         /*
-         * METHOD       : Display_menu()
+         * METHOD       : Display_menu
          * 
          * DESCRIPTION  : displays the main menu
          * 
@@ -111,7 +122,7 @@ namespace A02_OOP_JoshuaYDB
 
 
         /*
-         * METHOD       : Display_error_message()
+         * METHOD       : Display_error_message
          * 
          * DESCRIPTION  : displays an informative error message
          * 
@@ -130,7 +141,7 @@ namespace A02_OOP_JoshuaYDB
 
 
         /*
-         * METHOD       : Add_text()
+         * METHOD       : Add_text
          * 
          * DESCRIPTION  : Adds a string of user inputted text to the list passed in the parameter
          *                and returns the new list. This is preferable than a static list as it
@@ -179,7 +190,7 @@ namespace A02_OOP_JoshuaYDB
 
 
         /*
-         * METHOD       : Display_data()
+         * METHOD       : Display_data
          * 
          * DESCRIPTION  : Displays the data in the file line-by-line
          * 
@@ -211,7 +222,7 @@ namespace A02_OOP_JoshuaYDB
 
 
         /*
-         * METHOD       : Remove_line()
+         * METHOD       : Remove_line
          * 
          * DESCRIPTION  : Removes a string from the list passed in the parameter
          *                and returns the new list. The dtring that is removed is

@@ -11,6 +11,7 @@
 To do list:
 //making a test commit and push because Visual Studio Git is behaving strangely
 - re-check all comments
+- fix the error message function to display better
 - consider creating a method for blocking proogram and passing a message through it to reduce lines of code
 - FEATURE: add a way to opt out of removing or adding a line (cancel the operation)
 - add the actual number of lines in the list to the error message
