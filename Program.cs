@@ -17,28 +17,26 @@ namespace A02_OOP_JoshuaYDB
     {
         static void Main(string[] args)
         {
-            //string temp_input; //temporary variable while developing
 
-            Boolean ready = true;
-            ConsoleKeyInfo user_input; //using the ConsoleKeyInfo object/struct to store the key stroke https://learn.microsoft.com/en-us/dotnet/api/system.console.readkey?view=net-10.0 
+            Boolean ready = true; //flag for the menu, will terminate the loop when False
+            ConsoleKeyInfo user_input; //using the ConsoleKeyInfo object/struct to store the key stroke (See https://learn.microsoft.com/en-us/dotnet/api/system.console.readkey?view=net-10.0) 
             
+            List<string> saved_text = new List<string>(); //the list in which the user will add text
             
             //loop for main program
             while (ready)
             {
                 Display_menu(); //initial menu display
-                //Console.WriteLine("Enter X to exit");
-                //temp_input = Console.ReadLine(); //here to stop infinite loop while developing
-                
+
                 user_input = Console.ReadKey();
                 switch (user_input.Key)
                 {
                     case ConsoleKey.A:
-                        Add_text();
+                        saved_text = Add_text(saved_text);
                         break;
 
                     case ConsoleKey.D:
-                        Display_data();
+                        Display_data(saved_text);
                         break;
 
                     case ConsoleKey.R:
@@ -63,15 +61,10 @@ namespace A02_OOP_JoshuaYDB
 
                 }
                 Console.WriteLine("LAST INPUT:" + user_input.KeyChar + " \n"); //output for debugging purposes
-                //if(temp_input == "x" || temp_input == "X") //turn this if statement into a case when keystroke input is established
-                //{
-                //}
             }
+
             Console.WriteLine("successfully exited"); //debug line
-            //
-            //
-
-
+        
         }
 
 
@@ -139,24 +132,49 @@ namespace A02_OOP_JoshuaYDB
         /*
          * METHOD       : Add_text()
          * 
-         * DESCRIPTION  : Adds text to the file
+         * DESCRIPTION  : Adds a string of user inputted text to the list passed in the parameter
+         *                and returns the new list. This is preferable than a static list as it
+         *                should manage the memory a little better and avoids static variables
          * 
-         * PARAMETERS   : NONE
+         * PARAMETERS   : List<string> saved_text: (Shadowed name) a list that holds the strings of the user
          * 
-         * RETURNS      : NOTHING
+         * RETURNS      : List<string> saved_text: (shadowed name) returns the list with the newly added string
          */
-        private static void Add_text()
+        private static List<string> Add_text(List<string> saved_text)
         {
-            Console.WriteLine("Please enter the text you would like to add to the file\n");
-            Console.ReadLine();
-            
-            //add text to file
-            
+            Clear_screen();
+            Boolean invalid_string_flag = true; //flag to denote that the user_string is valid (i.e. not null or empty)
+
+            while(invalid_string_flag)
+            {
+
+                //just in time declaration to reset the value of user_string in each loop (in case of invalid input)
+                string? user_string; //the '?' of 'string?' allows the string to be null, which allows for the below validation
+
+                Console.WriteLine("Please enter the line of text you would like to add to the list:\n");
+                user_string = Console.ReadLine();
+
+                if (string.IsNullOrWhiteSpace(user_string)) //if user_string is null or only whitespace
+                {
+                    Console.WriteLine("\nThe line of text you enter must not be blank. Press any key to try again...");
+                    Console.ReadKey(); //readkey to block the program so the user can read the error
+                    Clear_screen();
+                    continue; //skips remaining code of the while loop, preferable to an empty if statement
+                }
+                else //if user_string is not null or only whitespace
+                {
+                    //add string to the list
+                    saved_text.Add(user_string);
+                    invalid_string_flag = false; //string is valid, changes flag to false to exit loop
+                }
+
+            }
+
             Console.WriteLine("\nText added successfully, press any key to continue...");
-            Console.ReadKey(); //readkey to block the program
+            Console.ReadKey(); //readkey to block the program so the user can read
             Clear_screen();
 
-            //no return needed for void return type
+            return saved_text;
         }
 
 
@@ -165,18 +183,24 @@ namespace A02_OOP_JoshuaYDB
          * 
          * DESCRIPTION  : Displays the data in the file line-by-line
          * 
-         * PARAMETERS   : NONE
+         * PARAMETERS   : List<string> saved_text: (shadowed name) a list that holds the strings added by the user
          * 
          * RETURNS      : NOTHING
          */
-        private static void Display_data()
+        private static void Display_data(List<string> saved_text)
         {
             Clear_screen();
             //pseudocode:
             //for each string in list
             //{
-            //    print({ count} + ": " + {string})
+            //    print({count} + ": " + {string})
             //}
+            foreach(string item in saved_text)
+            {
+                int temp_line_num = saved_text.IndexOf(item) + 1; //the line number, starting at 1. Just in time declaration to keep the scope local to the loop
+                Console.WriteLine( temp_line_num + ": " + item);
+            }
+
             Console.WriteLine();
             Console.WriteLine("End of data");
             Console.WriteLine();
