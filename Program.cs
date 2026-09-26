@@ -20,9 +20,9 @@ namespace A02_OOP_JoshuaYDB
 
             Boolean ready = true; //flag for the menu, will terminate the loop when False
             ConsoleKeyInfo user_input; //using the ConsoleKeyInfo object/struct to store the key stroke (See https://learn.microsoft.com/en-us/dotnet/api/system.console.readkey?view=net-10.0) 
-            
+
             List<string> saved_text = new List<string>(); //the list in which the user will add text
-            
+
             //loop for main program
             while (ready)
             {
@@ -40,7 +40,7 @@ namespace A02_OOP_JoshuaYDB
                         break;
 
                     case ConsoleKey.R:
-                        //foo
+                        saved_text = Remove_line(saved_text);
                         Clear_screen();
                         break;
 
@@ -53,7 +53,7 @@ namespace A02_OOP_JoshuaYDB
                         ready = false;
                         Clear_screen();
                         break;
-                    
+
                     default:
                         //no menu option selected, display an error
                         Display_error_message();
@@ -64,7 +64,7 @@ namespace A02_OOP_JoshuaYDB
             }
 
             Console.WriteLine("successfully exited"); //debug line
-        
+
         }
 
 
@@ -105,7 +105,7 @@ namespace A02_OOP_JoshuaYDB
                 "E<X>it the program\n" +
                 "Please choose the operation you would like to perform:\n\n"
                 );
-            
+
             //no return needed for void return type
         }
 
@@ -143,9 +143,9 @@ namespace A02_OOP_JoshuaYDB
         private static List<string> Add_text(List<string> saved_text)
         {
             Clear_screen();
-            Boolean invalid_string_flag = true; //flag to denote that the user_string is valid (i.e. not null or empty)
+            Boolean invalid_string_flag = true; //flag to denote that the user_string is invalid (i.e. null or empty)
 
-            while(invalid_string_flag)
+            while (invalid_string_flag)
             {
 
                 //just in time declaration to reset the value of user_string in each loop (in case of invalid input)
@@ -190,17 +190,15 @@ namespace A02_OOP_JoshuaYDB
         private static void Display_data(List<string> saved_text)
         {
             Clear_screen();
-            //pseudocode:
-            //for each string in list
-            //{
-            //    print({count} + ": " + {string})
-            //}
-            foreach(string item in saved_text)
+
+            foreach (string item in saved_text)
             {
                 int temp_line_num = saved_text.IndexOf(item) + 1; //the line number, starting at 1. Just in time declaration to keep the scope local to the loop
-                Console.WriteLine( temp_line_num + ": " + item);
+                Console.WriteLine(temp_line_num + ": " + item);
             }
 
+            //explicitly writing blank lines separately for assignment readability
+            // could be condensed with escape characters such as \n
             Console.WriteLine();
             Console.WriteLine("End of data");
             Console.WriteLine();
@@ -210,5 +208,82 @@ namespace A02_OOP_JoshuaYDB
             Clear_screen();
 
         }
+
+
+        /*
+         * METHOD       : Remove_line()
+         * 
+         * DESCRIPTION  : Removes a string from the list passed in the parameter
+         *                and returns the new list. The dtring that is removed is
+         *                based on user input, who is prompted to enter a line number.
+         *                The line number is the index+1 (since the index is 0 based)
+         * 
+         * PARAMETERS   : List<string> saved_text: (Shadowed name) a list that holds the strings of the user
+         * 
+         * RETURNS      : List<string> saved_text: (shadowed name) returns the updated list after a line was removed
+         */
+        private static List<string> Remove_line(List<string> saved_text)
+        {
+            //to add: make sure there is something to remove before this method can be called
+
+            Boolean invalid_input = true; //flag to control the while loop and denote that the input is invalid (i.e. null or empty, index does not exist, invalid input)
+            int index_for_deletion; //index of the line the user wants to delete
+
+            while (invalid_input)
+            {
+                //just in time declaration to reset the value of user_input in each loop (in case of invalid input or line not found)
+                string? user_input; //input from the user, '?' allows the input to be null (will be handled by validation)
+                
+                Console.WriteLine("Please enter the line number you would like to remove from the list:\n");
+                user_input = Console.ReadLine();
+                
+                if (string.IsNullOrWhiteSpace(user_input)) //if user_string is null or only whitespace
+                {
+                    Console.WriteLine("\nThe line number you enter must not be blank. Press any key to enter a different line number...");
+                    Console.ReadKey(); //readkey to block the program so the user can read the error
+                    Clear_screen();
+                    continue; //skips remaining code of the while loop, preferable to an empty if statement
+                }
+                else //if user_string is not null or only whitespace
+                {
+                    //check if the string is parsable to an int
+                    if (Int32.TryParse(user_input, out index_for_deletion) && index_for_deletion > 0) //checks if input was a parsable int, and if that int was lager than 0
+                    {
+                        index_for_deletion -= 1; //decrease the value by 1 to match the actual index instead of line number
+
+                        //check if the string at the index exists (should be between (-1) and (saved_text.Count) EXCLUSIVELY)
+                        if (index_for_deletion > -1 && index_for_deletion < saved_text.Count) //if the indicated line exists, this check prevents RemoveAt() from throwing an excception
+                        {
+                            saved_text.RemoveAt(index_for_deletion); //remove the string at the index in question
+                            invalid_input = false; //exit the loop by changing the flag to false
+                            Console.WriteLine($"\nLine {index_for_deletion + 1} removed successfully, press any key to continue...");
+                            Console.ReadKey(); //readkey to block the program so the user can read
+                            Clear_screen();
+                        }
+                        else //if the indicated line does not exist
+                        {
+                            Console.WriteLine("\nThe line number you entered does not exist. Press any key to enter a different line number...");
+                            Console.ReadKey(); //readkey to block the program so the user can read the error
+                            Clear_screen();
+                            continue; //skips remaining code of the while loop, preferable to an empty if statement
+                        }
+
+                    }
+                    else //i.e. if the input was not parsable to an int or was smaller than 1 (covers letters, symbols, zero, negative numbers and non-integers)
+                    {
+                        Console.WriteLine("\nInvalid input. Enter only integers greater than 0. Press any key to enter a different line number...");
+                        Console.ReadKey(); //readkey to block the program so the user can read the error
+                        Clear_screen();
+                        continue; //skips remaining code of the while loop, preferable to an empty if statement
+                    }
+
+                }
+
+            }
+
+            return saved_text;
+
+        }
+
     }
 }

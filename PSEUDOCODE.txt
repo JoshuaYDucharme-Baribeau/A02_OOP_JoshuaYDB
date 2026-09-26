@@ -4,13 +4,17 @@
  * PROGRAMMER       : Joshua Ducharme-Baribeau
  * FIRST VERSION    : September 20 2026
  * DESCRIPTION      : Pseudo code/plan and notes for the asssignment.
- *					: FOR STUDENT USE ONLY.
+ *					: FOR STUDENT USE ONLY. 
+ *					: INSTRUCTORS MAY REFER TO THE FILE OUT OF CURIOSITY, BUT IT IS NOT FOR GRADING.
  */
 
 To do list:
 //making a test commit and push because Visual Studio Git is behaving strangely
 - re-check all comments
-- 
+- consider creating a method for blocking proogram and passing a message through it to reduce lines of code
+- FEATURE: add a way to opt out of removing or adding a line (cancel the operation)
+- add the actual number of lines in the list to the error message
+- FEATURE: add a way to display the list when presenting the user with an error
 
 Pseudocode:
 1.0.	clear screen (could possibly be omitted on initial start)
