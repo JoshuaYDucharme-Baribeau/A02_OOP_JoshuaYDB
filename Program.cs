@@ -23,7 +23,7 @@ namespace A02_OOP_JoshuaYDB
 
             List<string> saved_text = new List<string>(); //the list in which the user will add text
 
-            //loop for main program
+            //loop for main program/menu
             while (ready)
             {
                 Display_menu(); //menu display
@@ -31,21 +31,26 @@ namespace A02_OOP_JoshuaYDB
                 user_input = Console.ReadKey();
                 switch (user_input.Key)
                 {
+                    //add text
                     case ConsoleKey.A:
                         saved_text = Add_text(saved_text);
                         break;
 
+                    //display data
                     case ConsoleKey.D:
                         Display_data(saved_text);
                         break;
 
+                    //remove line/text
                     case ConsoleKey.R:
                         
-                        if(saved_text.Count > 0) //if there are any strings in the list to remove
+                        //if there are any strings in the list to remove
+                        if(saved_text.Count > 0) 
                         {
                             saved_text = Remove_line(saved_text);
                         }
-                        else //if there are no strings in the list to remove
+                        //if there are no strings in the list to remove
+                        else 
                         {
                             Display_error_message
                                 (
@@ -65,12 +70,14 @@ namespace A02_OOP_JoshuaYDB
                         Clear_screen();
                         Console.WriteLine("Are you sure (Y or N)?");
                         user_input = Console.ReadKey();
+
                         if(user_input.Key == ConsoleKey.Y)
                         {
-                            ready = false;
+                            ready = false; //change the flag and exit the loop
                             Clear_screen();
                         }
-                        else // i.e. if input is not Y or y
+                        // i.e. if input is not Y or y
+                        else 
                         {
                             //do nothing to continue looping to the menu
                         }
@@ -86,10 +93,8 @@ namespace A02_OOP_JoshuaYDB
                         break;
 
                 }
-                //Console.WriteLine("LAST INPUT:" + user_input.KeyChar + " \n"); //output for debugging purposes
+
             }
-            
-            //Console.WriteLine("successfully exited"); //debug line
 
         }
 
@@ -100,7 +105,7 @@ namespace A02_OOP_JoshuaYDB
          * DESCRIPTION  : clears the UI (i.e. clears the cli display).
          *                Although a method for this exists in the System namespace, 
          *                I use it frequently so I wanted my own method that I 
-         *                could modify if I needed.
+         *                could modify if I needed. In the end, I did not modify it.
          * 
          * PARAMETERS   : NONE
          * 
@@ -124,8 +129,8 @@ namespace A02_OOP_JoshuaYDB
          */
         private static void Display_menu()
         {
-            Clear_screen(); //clear the screen before anything
-            //Main menu's WriteLine. Concatenated for code readability
+            Clear_screen(); //clear the screen before displaying anything
+            //Main menu's WriteLine. Concatenated for code readability. Displays almost exactly as coded.
             Console.WriteLine
                 (
                     "<A>dd a new line of text data\n" +
@@ -140,6 +145,15 @@ namespace A02_OOP_JoshuaYDB
         }
 
 
+        /*
+         * METHOD       : Block_program
+         * 
+         * DESCRIPTION  : displays a message and awaits for key input before continuing
+         * 
+         * PARAMETERS   : string message_prompt : a string that will be written to the console.
+         * 
+         * RETURNS      : NOTHING
+         */
         private static void Block_program(string message_prompt = "Press any key to continue...") //sets a default param to make the param optional.
         {
             Console.WriteLine(message_prompt);
@@ -150,15 +164,15 @@ namespace A02_OOP_JoshuaYDB
         /*
          * METHOD       : Display_error_message
          * 
-         * DESCRIPTION  : displays an informative error message
+         * DESCRIPTION  : displays an informative error message and calls a method to block the program
          * 
-         * PARAMETERS   : NONE
+         * PARAMETERS   : string error_message  : [OPTIONAL] A specific error message that will be displayed. 
+         *              : string message_prompt : [OPTIONAL] [shadows the paramater it passes itself to] A prompt that will be passed to Block_Program when it is called.
          * 
          * RETURNS      : NOTHING
          */
         private static void Display_error_message(string error_message = "An error has occurred.", string message_prompt = "Press any key to try again...") //Two default params
         {
-            //Clear_screen();
             Console.WriteLine("\n\n" + error_message);
             Block_program(message_prompt);
         }
@@ -193,8 +207,8 @@ namespace A02_OOP_JoshuaYDB
                 //if user_string is null or only whitespace
                 if (string.IsNullOrWhiteSpace(user_string)) 
                 {
-                    //display an error and block program (Display_error_message calls a method to block the program)
-                    Display_error_message("The line of text you enter must not be blank."); //uses the default param for the Block_program method
+                    
+                    Display_error_message("The line of text you enter must not be blank."); //uses the default for the second param of the Block_program method
                     
                 }
                 //else, i.e. if user_string is not null or only whitespace
@@ -227,13 +241,15 @@ namespace A02_OOP_JoshuaYDB
         {
             Clear_screen();
 
-            foreach (string item in saved_text)
+            foreach(string item in saved_text)
             {
-                int temp_line_num = saved_text.IndexOf(item) + 1; //the line number, starting at 1. Just in time declaration to keep the scope local to the loop
+                //the line number, starting at 1. Just in time declaration to keep the scope local to the loop
+                int temp_line_num = saved_text.IndexOf(item) + 1; 
+
                 Console.WriteLine(temp_line_num + ": " + item);
             }
 
-            //explicitly writing blank lines separately for assignment readability
+            //explicitly writing blank lines separately for assignment assessment and readability
             // could be condensed with escape characters such as \n
             Console.WriteLine();
             Console.WriteLine("End of data");
@@ -248,11 +264,11 @@ namespace A02_OOP_JoshuaYDB
          * METHOD       : Remove_line
          * 
          * DESCRIPTION  : Removes a string from the list passed in the parameter
-         *                and returns the new list. The dtring that is removed is
+         *                and returns the new list. The string that is removed is
          *                based on user input, who is prompted to enter a line number.
          *                The line number is the index+1 (since the index is 0 based)
          * 
-         * PARAMETERS   : List<string> saved_text: (Shadowed name) a list that holds the strings of the user
+         * PARAMETERS   : List<string> saved_text: (Shadowed name) a list that holds the strings added by the user
          * 
          * RETURNS      : List<string> saved_text: (shadowed name) returns the updated list after a line was removed
          */
@@ -279,10 +295,11 @@ namespace A02_OOP_JoshuaYDB
                             "Press any key to enter a different line number..."
                         );
                 }
-                else //if user_string is not null or only whitespace
+                //else, i.e. if user_string is not null or only whitespace
+                else
                 {
-                    //check if the string is parsable to an int
-                    if (Int32.TryParse(user_input, out index_for_deletion) && index_for_deletion > 0) //checks if input was a parsable int, and if that int was lager than 0
+                    //checks if input was a parsable int, and if that int was lager than 0
+                    if (Int32.TryParse(user_input, out index_for_deletion) && index_for_deletion > 0)
                     {
                         index_for_deletion -= 1; //decrease the value by 1 to match the actual index instead of line number
 
@@ -296,7 +313,8 @@ namespace A02_OOP_JoshuaYDB
                             Block_program("Press any key to continue...");
 
                         }
-                        else //if the indicated line does not exist
+                        //else, i.e. if the indicated line does not exist
+                        else 
                         {
                             Display_error_message
                                 (
@@ -306,7 +324,8 @@ namespace A02_OOP_JoshuaYDB
                         }
 
                     }
-                    else //i.e. if the input was not parsable to an int or was smaller than 1 (covers letters, symbols, zero, negative numbers and non-integers)
+                    //else, i.e. if the input was not parsable to an int or was smaller than 1 (covers letters, symbols, zero, negative numbers and non-integers)
+                    else 
                     {
                         Display_error_message
                             (
@@ -323,20 +342,35 @@ namespace A02_OOP_JoshuaYDB
 
         }
 
+
+        /*
+         * METHOD       : Get_valid_file_name
+         * 
+         * DESCRIPTION  : Asks the user to input a file name (or path and file name) to which the data should be saved
+         * 
+         * PARAMETERS   : List<string> saved_text: (Shadowed name) a list that holds the data added by the user
+         * 
+         * RETURNS      : NOTHING
+         */
         private static void Get_valid_file_name(List<string> saved_text)
         {
-            Boolean invalid_file_name = true;
-            string? file_name;
+
+            Boolean invalid_file_name = true; //flag for a while loop
+            string? file_name; //? allows null in order for validation to be done by the code instead of an exception or warning being thrown
 
             while (invalid_file_name)
             {
                 Clear_screen();
-                Console.WriteLine("Enter the name of the file to which you would like to save the data." +
-                    "\nNB: Do not use spaces or symbols. Be sure to specify a file extension:\n");
+                
+                Console.WriteLine
+                    (
+                        "Enter the name of the file to which you would like to save the data." +
+                        "\nNB: Do not use invalid characters. Be sure to specify file extensions as needed:\n"
+                    );
                 file_name = Console.ReadLine();
 
-                //Preventing null or blank filenames, as well as preventing sympols and spaces to accommodate a broader range of file systems
-                //Regex might be preferable here if there were more specific requirements. This covers most bases
+                //Preventing null or blank filenames. Regex might be preferable here if there were more specific requirements or file naming conventions to follow.
+                //Exceptions will be handled in a different method
                 if (string.IsNullOrEmpty(file_name))
                 {
                     Display_error_message
@@ -345,7 +379,7 @@ namespace A02_OOP_JoshuaYDB
                             "Press any key to enter a different file name."
                         );
                 }
-                //if filename contains valid chars,call the method to open and write to the file
+                //else, i.e. if filename is not blank or null, call the method to open and write to the file
                 else
                 {
                     //if the file saving is successful
@@ -353,12 +387,14 @@ namespace A02_OOP_JoshuaYDB
                     {
                         //exit the loop by changing the flag
                         invalid_file_name = false;
+
                         Console.WriteLine($"\nData saved successfully to {file_name}.");
                         Block_program("Press any key to continue...");
                     }
-                    //if the file saving is unsuccessful
+                    //else, i.e. if the file saving is unsuccessful
                     else
                     {
+                        //if the saving is unsuccessful, error handling and messages will be displayed by Write_to_file()
                         break;
                     }
 
@@ -368,15 +404,29 @@ namespace A02_OOP_JoshuaYDB
 
         }
 
+
+        /*
+         * METHOD       : Write_to_file
+         * 
+         * DESCRIPTION  : opens the file streams and tries to create/write to the specified file
+         *              : Handles generic exceptions in case of failure.
+         * 
+         * PARAMETERS   : List<string> file_name: (Shadowed name) The name of the file
+         * 
+         * RETURNS      : Boolean success_flag: a true/false flag to indicate if the operation was successful
+         */
         private static Boolean Write_to_file(string file_name, List<string> saved_text)
         {
-            //specifiying the namespace for clarity and evaluation of the instructor
+            Boolean success_flag;
+
+            //specifiying the namespace for clarity and evaluation by the instructor
             System.IO.FileStream my_file_stream;
             System.IO.StreamWriter my_stream_writer;
 
-            //exception needs to be handled: System.IO.DirectoryNotFoundException:
+            //try to open and write
             try
             {
+                //open streams
                 my_file_stream = File.OpenWrite(file_name);
                 my_stream_writer = new StreamWriter(my_file_stream);
                 
@@ -386,22 +436,28 @@ namespace A02_OOP_JoshuaYDB
                     my_stream_writer.WriteLine(element);
                 }
 
-                //close when finished
+                //close streams when finished
                 my_stream_writer.Close();
                 my_file_stream.Close();
-                return true; //return true to indicate a success
+                success_flag = true; //flag is true to indicate a success
             }
+            //catch all exceptions
             catch(Exception ex)
             {
-                //ex itself passes a very detailed error message. opting for ex.Message which passes a much shorter error message.
+                //ex itself passes a very detailed error message. Opting for ex.Message, which passes a much shorter error message.
                 Display_error_message
                 (
                     "An error has occurred while saving the data to the file. The data was not saved\n" + "Error information: \"" + ex.Message + "\"",
                     "Press any key to return to the menu..."
                 );
-                Clear_screen();
-                return false; //return false to indicate an error
+                success_flag = false; //flag is false to indicate an error occurred
             }
+            finally
+            {
+                Clear_screen();
+            }
+            
+            return success_flag;
 
         }
 
