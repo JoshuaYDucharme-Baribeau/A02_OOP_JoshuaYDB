@@ -337,22 +337,30 @@ namespace A02_OOP_JoshuaYDB
 
                 //Preventing null or blank filenames, as well as preventing sympols and spaces to accommodate a broader range of file systems
                 //Regex might be preferable here if there were more specific requirements. This covers most bases
-                if (string.IsNullOrEmpty(file_name) || file_name.Any(char.IsWhiteSpace) || file_name.Any(char.IsSymbol))
+                if (string.IsNullOrEmpty(file_name))
                 {
                     Display_error_message
                         (
-                            "The file name may not be blank or contain spaces or special characters.",
+                            "The file name may not be blank.",
                             "Press any key to enter a different file name."
                         );
                 }
                 //if filename contains valid chars,call the method to open and write to the file
                 else
                 {
-                    Write_to_file(file_name, saved_text);
-                    //exit the loop by changing the flag
-                    invalid_file_name = false;
-                    Console.WriteLine($"\nData saved successfully to {file_name}.");
-                    Block_program("Press any key to continue...");
+                    //if the file saving is successful
+                    if(Write_to_file(file_name, saved_text))
+                    {
+                        //exit the loop by changing the flag
+                        invalid_file_name = false;
+                        Console.WriteLine($"\nData saved successfully to {file_name}.");
+                        Block_program("Press any key to continue...");
+                    }
+                    //if the file saving is unsuccessful
+                    else
+                    {
+                        break;
+                    }
 
                 }
 
@@ -360,24 +368,41 @@ namespace A02_OOP_JoshuaYDB
 
         }
 
-        private static void Write_to_file(string file_name, List<string> saved_text)
+        private static Boolean Write_to_file(string file_name, List<string> saved_text)
         {
             //specifiying the namespace for clarity and evaluation of the instructor
             System.IO.FileStream my_file_stream;
             System.IO.StreamWriter my_stream_writer;
-            
-            //
-            my_file_stream = File.OpenWrite(file_name);
-            my_stream_writer = new StreamWriter(my_file_stream);
 
-            //write each element of the list to the file, line by line
-            foreach (string element in saved_text)
+            //exception needs to be handled: System.IO.DirectoryNotFoundException:
+            try
             {
-                my_stream_writer.WriteLine(element);
+                my_file_stream = File.OpenWrite(file_name);
+                my_stream_writer = new StreamWriter(my_file_stream);
+                
+                //write each element of the list to the file, line by line
+                foreach (string element in saved_text)
+                {
+                    my_stream_writer.WriteLine(element);
+                }
+
+                //close when finished
+                my_stream_writer.Close();
+                my_file_stream.Close();
+                return true; //return true to indicate a success
             }
-            //close when finished
-            my_stream_writer.Close();
-            my_file_stream.Close();
+            catch(Exception ex)
+            {
+                //ex itself passes a very detailed error message. opting for ex.Message which passes a much shorter error message.
+                Display_error_message
+                (
+                    "An error has occurred while saving the data to the file. The data was not saved\n" + "Error information: \"" + ex.Message + "\"",
+                    "Press any key to return to the menu..."
+                );
+                Clear_screen();
+                return false; //return false to indicate an error
+            }
+
         }
 
     }
