@@ -57,12 +57,23 @@ namespace A02_OOP_JoshuaYDB
                         break;
 
                     case ConsoleKey.S:
-                        //foo
+                        Get_valid_file_name(saved_text);
                         break;
 
                     case ConsoleKey.X:
-                        ready = false;
+
                         Clear_screen();
+                        Console.WriteLine("Are you sure (Y or N)?");
+                        user_input = Console.ReadKey();
+                        if(user_input.Key == ConsoleKey.Y)
+                        {
+                            ready = false;
+                            Clear_screen();
+                        }
+                        else // i.e. if input is not Y or y
+                        {
+                            //do nothing to continue looping to the menu
+                        }
                         break;
 
                     default:
@@ -302,7 +313,6 @@ namespace A02_OOP_JoshuaYDB
                                 "Invalid input. Enter only integers greater than 0.",
                                 "Press any key to enter a different line number..."
                             );
-
                     }
 
                 }
@@ -311,6 +321,63 @@ namespace A02_OOP_JoshuaYDB
 
             return saved_text;
 
+        }
+
+        private static void Get_valid_file_name(List<string> saved_text)
+        {
+            Boolean invalid_file_name = true;
+            string? file_name;
+
+            while (invalid_file_name)
+            {
+                Clear_screen();
+                Console.WriteLine("Enter the name of the file to which you would like to save the data." +
+                    "\nNB: Do not use spaces or symbols. Be sure to specify a file extension:\n");
+                file_name = Console.ReadLine();
+
+                //Preventing null or blank filenames, as well as preventing sympols and spaces to accommodate a broader range of file systems
+                //Regex might be preferable here if there were more specific requirements. This covers most bases
+                if (string.IsNullOrEmpty(file_name) || file_name.Any(char.IsWhiteSpace) || file_name.Any(char.IsSymbol))
+                {
+                    Display_error_message
+                        (
+                            "The file name may not be blank or contain spaces or special characters.",
+                            "Press any key to enter a different file name."
+                        );
+                }
+                //if filename contains valid chars,call the method to open and write to the file
+                else
+                {
+                    Write_to_file(file_name, saved_text);
+                    //exit the loop by changing the flag
+                    invalid_file_name = false;
+                    Console.WriteLine($"\nData saved successfully to {file_name}.");
+                    Block_program("Press any key to continue...");
+
+                }
+
+            }
+
+        }
+
+        private static void Write_to_file(string file_name, List<string> saved_text)
+        {
+            //specifiying the namespace for clarity and evaluation of the instructor
+            System.IO.FileStream my_file_stream;
+            System.IO.StreamWriter my_stream_writer;
+            
+            //
+            my_file_stream = File.OpenWrite(file_name);
+            my_stream_writer = new StreamWriter(my_file_stream);
+
+            //write each element of the list to the file, line by line
+            foreach (string element in saved_text)
+            {
+                my_stream_writer.WriteLine(element);
+            }
+            //close when finished
+            my_stream_writer.Close();
+            my_file_stream.Close();
         }
 
     }
